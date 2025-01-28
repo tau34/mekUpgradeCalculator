@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mekアプグレシミュレーター</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>mekanismアップグレード性能シミュレータ</h1>
+
+        <div class="input-group">
+            <label for="base-energy">アップグレードなしのエネルギー消費量</label>
+            <input type="number" id="base-energy" value="20" min="0" oninput="calculate()">
+            <label for="base-energy">アップグレードなしの必要な時間(tick)</label>
+            <input type="number" id="base-time" value="200" min="0" oninput="calculate()">
+        </div>
+
+        <div class="upgrades">
+            <h2>アップグレード設定</h2>
+            <div class="upgrade">
+                <label>アップグレード倍率</label>
+                <input type="number" id="multiplier" value="10" min="1" oninput="calculate()">
+            </div>
+        </div>
+
+        <div class="upgrades">
+            <h2>アップグレード</h2>
+            <div class="upgrade">
+                <label>スピードアップグレード</label>
+                <div class="controls">
+                    <button onclick="updateUpgrade('speed', -8)">-8</button>
+                    <button onclick="updateUpgrade('speed', -1)">-1</button>
+                    <input type="number" id="speed-upgrade" value="0" min="0" max="64" oninput="calculate()">
+                    <button onclick="updateUpgrade('speed', 1)">+1</button>
+                    <button onclick="updateUpgrade('speed', 8)">+8</button>
+                </div>
+            </div>
+
+            <div class="upgrade">
+                <label>エネルギーアップグレード</label>
+                <div class="controls">
+                    <button onclick="updateUpgrade('energy', -8)">-8</button>
+                    <button onclick="updateUpgrade('energy', -1)">-1</button>
+                    <input type="number" id="energy-upgrade" value="0" min="0" max="64" oninput="calculate()">
+                    <button onclick="updateUpgrade('energy', 1)">+1</button>
+                    <button onclick="updateUpgrade('energy', 8)">+8</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="results">
+            <h2>結果</h2>
+            <p>必要な時間: <span id="result-time">-</span></p>
+            <p>エネルギー消費量: <span id="result-energy">-</span></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
