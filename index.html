@@ -11,10 +11,22 @@
         <h1>mekanismアップグレード性能シミュレータ</h1>
 
         <div class="input-group">
-            <label for="base-energy">アップグレードなしのエネルギー消費量</label>
+            <label for="base-energy">アップグレードなしのエネルギー消費量(FE/tick)</label>
             <input type="number" id="base-energy" value="20" min="0" oninput="calculate()">
-            <label for="base-energy">アップグレードなしの必要な時間(tick)</label>
-            <input type="number" id="base-time" value="200" min="0" oninput="calculate()">
+            <label for="base-energy" id="label-base-energy">アップグレードなしの効率(mb/tick)</label>
+            <input type="number" id="base-time" value="1" min="0" oninput="calculate()">
+        </div>
+
+        <div class="options">
+            <h2>処理単位の選択</h2>
+            <div>
+                <input type="radio" id="tick" name="processing-unit" value="tick" checked onclick="changeMode(0);calculate()">
+                <label for="tick">1tickあたりの処理</label>
+            </div>
+            <div>
+                <input type="radio" id="unit" name="processing-unit" value="unit" onclick="changeMode(1);calculate()">
+                <label for="unit">1個あたりの処理</label>
+            </div>
         </div>
 
         <div class="upgrades">
@@ -52,7 +64,7 @@
 
         <div class="results">
             <h2>結果</h2>
-            <p>必要な時間: <span id="result-time">-</span></p>
+            <p><span id="label-result-time">効率</span>: <span id="result-time">-</span></p>
             <p>エネルギー消費量: <span id="result-energy">-</span></p>
         </div>
     </div>

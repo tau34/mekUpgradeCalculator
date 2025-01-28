@@ -40,20 +40,41 @@ function formatWithSIPrefix(value) {
     return value.toExponential(8);
 }
 
+let ef = 1;
+let ti = 200;
+
+function changeMode(mode) {
+    let flag = mode === 0;
+    document.getElementById('label-base-energy').textContent = flag ? "アップグレードなしの効率(mb/tick)" : "アップグレードなしの必要な時間(tick)";
+    document.getElementById('base-time').value = flag ? ef : ti;
+    document.getElementById('label-result-time').textContent = flag ? "効率" : "必要な時間";
+}
+
 function calculate() {
     const baseEnergy = parseFloat(document.getElementById('base-energy').value) || 0;
     const baseTime = parseFloat(document.getElementById('base-time').value) || 0;
 
     const multiplier = parseFloat(document.getElementById('multiplier').value) || 1;
+    const processingUnit = document.querySelector('input[name="processing-unit"]:checked').value;
 
     const speedUpgrade = parseInt(document.getElementById('speed-upgrade').value, 10) || 0;
     const energyUpgrade = parseInt(document.getElementById('energy-upgrade').value, 10) || 0;
 
-    const time = baseTime / (multiplier ** (speedUpgrade / 8));
-    const energy = baseEnergy * (multiplier ** ((2 * speedUpgrade - Math.min(energyUpgrade, Math.max(8, speedUpgrade))) / 8));
+    if (processingUnit == "tick") {
+        const efficiency = baseTime * (2 ** speedUpgrade);
+        const energy = baseEnergy * (multiplier ** ((2 * speedUpgrade - Math.min(energyUpgrade, Math.max(8, speedUpgrade))) / 8)) * (2 ** speedUpgrade);
 
-    document.getElementById('result-time').textContent = time >= 1 ? formatWithSIPrefix(time) + "tick" : "1/" + formatWithSIPrefix(1 / time) + " tick";
-    document.getElementById('result-energy').textContent = formatWithSIPrefix(energy) + "FE/tick";
+        document.getElementById('result-time').textContent = formatWithSIPrefix(efficiency / 1000) + "b/tick";
+        document.getElementById('result-energy').textContent = formatWithSIPrefix(energy) + "FE/tick";
+        ef = baseTime;
+    } else {
+        const time = baseTime / (multiplier ** (speedUpgrade / 8));
+        const energy = baseEnergy * (multiplier ** ((2 * speedUpgrade - Math.min(energyUpgrade, Math.max(8, speedUpgrade))) / 8));
+
+        document.getElementById('result-time').textContent = time >= 1 ? formatWithSIPrefix(time) + "tick" : "1/" + formatWithSIPrefix(1 / time) + " tick";
+        document.getElementById('result-energy').textContent = formatWithSIPrefix(energy) + "FE/tick";
+        ti = baseTime;
+    }
 }
 
 // 初回計算
