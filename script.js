@@ -28,7 +28,7 @@ function formatWithSIPrefix(value) {
     ];
 
     if (value === 0) {
-        return '0';
+        return '0.0000000 ';
     }
 
     for (const { prefix, factor } of siPrefixes) {
@@ -71,7 +71,7 @@ function calculate() {
 
         const flag = energy < capacity;
 
-        document.getElementById('result-time').textContent = formatWithSIPrefix(efficiency / 1000 * (flag ? 1 : capacity / energy)) + "b/tick" + (flag ? "" : " (内部電力容量の不足により最高速度でない)");
+        document.getElementById('result-time').textContent = formatWithSIPrefix(Math.floor(efficiency * (flag ? 1 : capacity / energy)) / 1000) + "b/tick" + (flag ? "" : " (内部電力容量の不足により最高速度でない)");
         document.getElementById('result-energy').textContent = formatWithSIPrefix(energy) + "FE/tick" + (flag ? "" : " (内部電力容量が不足)");
         ef = baseTime;
     } else {
