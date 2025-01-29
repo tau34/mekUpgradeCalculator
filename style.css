@@ -126,7 +126,7 @@ input[type="number"]:focus {
 .options label::after {
     content: '';
     position: absolute;
-    left: 6.5px;
+    left: 7.4px;
     top: 50%;
     transform: translateY(-50%);
     width: 10px;
