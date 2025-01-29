@@ -60,12 +60,19 @@ function calculate() {
     const speedUpgrade = parseInt(document.getElementById('speed-upgrade').value, 10) || 0;
     const energyUpgrade = parseInt(document.getElementById('energy-upgrade').value, 10) || 0;
 
+    const baseCapacity = parseFloat(document.getElementById('base-capacity').value) || 0;
+
+    const capacity = baseCapacity * (multiplier ** (energyUpgrade / 8));
+    document.getElementById('result-capacity').textContent = formatWithSIPrefix(capacity) + " FE";
+
     if (processingUnit == "tick") {
         const efficiency = baseTime * (2 ** speedUpgrade);
         const energy = baseEnergy * (multiplier ** ((2 * speedUpgrade - Math.min(energyUpgrade, Math.max(8, speedUpgrade))) / 8)) * (2 ** speedUpgrade);
 
-        document.getElementById('result-time').textContent = formatWithSIPrefix(efficiency / 1000) + "b/tick";
-        document.getElementById('result-energy').textContent = formatWithSIPrefix(energy) + "FE/tick";
+        const flag = energy < capacity;
+
+        document.getElementById('result-time').textContent = formatWithSIPrefix(efficiency / 1000 * (flag ? 1 : capacity / energy)) + "b/tick" + (flag ? "" : " (内部電力容量の不足により最高速度でない)");
+        document.getElementById('result-energy').textContent = formatWithSIPrefix(energy) + "FE/tick" + (flag ? "" : " (内部電力容量が不足)");
         ef = baseTime;
     } else {
         const time = baseTime / (multiplier ** (speedUpgrade / 8));
